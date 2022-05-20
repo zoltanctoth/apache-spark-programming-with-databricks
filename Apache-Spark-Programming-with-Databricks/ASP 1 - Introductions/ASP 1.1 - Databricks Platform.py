@@ -149,6 +149,10 @@ displayHTML(html)
 
 # COMMAND ----------
 
+# MAGIC %fs mounts
+
+# COMMAND ----------
+
 # MAGIC %fs ls /databricks-datasets
 
 # COMMAND ----------

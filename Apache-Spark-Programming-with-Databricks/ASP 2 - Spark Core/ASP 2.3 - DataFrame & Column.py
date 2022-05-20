@@ -207,6 +207,8 @@ display(location_df)
 
 # MAGIC %md #### **`filter()`**
 # MAGIC Filters rows using the given SQL expression or column based condition.
+# MAGIC 
+# MAGIC ##### Alias: **`where`**
 
 # COMMAND ----------
 

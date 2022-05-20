@@ -103,7 +103,7 @@ print("All test pass")
 
 # MAGIC %md ### 3. Execute query with display() and plot results
 # MAGIC - Use **`display`** to start **`traffic_df`** as a streaming query and display the resulting memory sink
-# MAGIC   - Assign "hourly_traffic" as the name of the query by seting the **`streamName`** parameter of **`display`**
+# MAGIC   - Assign "hourly_traffic" as the name of the query by setting the **`streamName`** parameter of **`display`**
 # MAGIC - Plot the streaming query results as a bar graph
 # MAGIC - Configure the following plot options:
 # MAGIC   - Keys: **`hour`**
