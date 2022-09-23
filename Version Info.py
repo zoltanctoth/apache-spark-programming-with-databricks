@@ -10,8 +10,8 @@
 # MAGIC %md # Project Information
 # MAGIC 
 # MAGIC * Name: **Apache Spark Programming with Databricks**
-# MAGIC * Version:  **2.2.4**
-# MAGIC * Built On: **Sep 14, 2022 at 19:16:26 UTC**
+# MAGIC * Version:  **2.2.5**
+# MAGIC * Built On: **Sep 23, 2022 at 18:19:26 UTC**
 
 # COMMAND ----------
 

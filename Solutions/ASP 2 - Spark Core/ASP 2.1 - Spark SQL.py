@@ -120,7 +120,7 @@ products_df = spark.table("products")
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC Below are several additional methods we can use to create DataFrames. All of these can be found in the <a href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.sql.SparkSession.html" target="_blank">documentation</a> for **`SparkSession`**.
+# MAGIC Below are several additional methods we can use to create DataFrames. All of these can be found in the <a href="https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/spark_session.html" target="_blank">documentation</a> for **`SparkSession`**.
 # MAGIC 
 # MAGIC #### **`SparkSession`** Methods
 # MAGIC | Method | Description |
