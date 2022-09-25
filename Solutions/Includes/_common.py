@@ -1,8 +1,8 @@
 # Databricks notebook source
 # MAGIC %pip install \
-# MAGIC git+https://github.com/databricks-academy/dbacademy-gems@e8183eed9481624f25b34436810cf6666b4438c0 \
+# MAGIC git+https://github.com/databricks-academy/dbacademy-gems@63bb19389fd2296f6cc5a74e463ab52ab1548767 \
 # MAGIC git+https://github.com/databricks-academy/dbacademy-rest@96351a554ed00b664e7c2d97249805df5611be06 \
-# MAGIC git+https://github.com/databricks-academy/dbacademy-helper@3a3a27b743283e24fe52f1f03ecc963d896f108e \
+# MAGIC git+https://github.com/databricks-academy/dbacademy-helper@ac98761e19f74981b46e577cb39835df267f5da6 \
 # MAGIC --quiet --disable-pip-version-check
 
 # COMMAND ----------
@@ -14,6 +14,8 @@
 import re
 from dbacademy_gems import dbgems
 from dbacademy_helper import DBAcademyHelper, Paths
+from dbacademy_helper.tests import TestHelper
+from pyspark.sql.types import StructType, StringType, DoubleType, LongType, FloatType, DataType
 
 helper_arguments = {
     "course_code" : "asp",             # The abreviated version of the course

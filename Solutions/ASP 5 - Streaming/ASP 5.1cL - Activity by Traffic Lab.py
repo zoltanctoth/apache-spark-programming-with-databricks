@@ -31,7 +31,7 @@
 
 # COMMAND ----------
 
-# MAGIC %run ../Includes/Classroom-Setup
+# MAGIC %run ../Includes/Classroom-Setup-5.1c
 
 # COMMAND ----------
 
@@ -39,17 +39,15 @@
 # MAGIC - Set to process 1 file per trigger
 # MAGIC - Read from Delta with filepath stored in **`DA.paths.events`**
 # MAGIC 
-# MAGIC Assign the resulting DataFrame to **`df`**.
+# MAGIC Assign the resulting Query to **`df`**.
 
 # COMMAND ----------
 
 # ANSWER
-df = (spark
-      .readStream
-      .option("maxFilesPerTrigger", 1)
-      .format("delta")
-      .load(DA.paths.events)
-     )
+df = (spark.readStream
+           .option("maxFilesPerTrigger", 1)
+           .format("delta")
+           .load(DA.paths.events))
 
 # COMMAND ----------
 
@@ -57,9 +55,7 @@ df = (spark
 
 # COMMAND ----------
 
-assert df.isStreaming
-assert df.columns == ["device", "ecommerce", "event_name", "event_previous_timestamp", "event_timestamp", "geo", "items", "traffic_source", "user_first_touch_timestamp", "user_id"]
-print("All test pass")
+DA.tests.validate_1_1(df)
 
 # COMMAND ----------
 
@@ -88,8 +84,7 @@ traffic_df = (df
 
 # COMMAND ----------
 
-assert str(traffic_df.schema) == "StructType(List(StructField(traffic_source,StringType,true),StructField(active_users,LongType,false)))"
-print("All test pass")
+DA.tests.validate_2_1(traffic_df.schema)
 
 # COMMAND ----------
 
@@ -124,8 +119,9 @@ traffic_query = (traffic_df
                  .format("memory")
                  .outputMode("complete")
                  .trigger(processingTime="1 second")
-                 .start()
-                )
+                 .start())
+
+DA.block_until_stream_is_ready("active_users_by_traffic")
 
 # COMMAND ----------
 
@@ -133,11 +129,7 @@ traffic_query = (traffic_df
 
 # COMMAND ----------
 
-DA.block_until_stream_is_ready("active_users_by_traffic")
-assert traffic_query.isActive
-assert "active_users_by_traffic" in traffic_query.name
-assert traffic_query.lastProgress["sink"]["description"] == "MemorySink"
-print("All test pass")
+DA.tests.validate_4_1(traffic_query)
 
 # COMMAND ----------
 
@@ -183,8 +175,7 @@ for s in spark.streams.active:
 
 # COMMAND ----------
 
-assert not traffic_query.isActive
-print("All test pass")
+DA.tests.validate_6_1(traffic_query)
 
 # COMMAND ----------
 

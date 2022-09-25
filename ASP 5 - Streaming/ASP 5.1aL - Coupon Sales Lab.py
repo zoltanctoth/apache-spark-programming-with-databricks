@@ -23,7 +23,7 @@
 
 # COMMAND ----------
 
-# MAGIC %run ../Includes/Classroom-Setup
+# MAGIC %run ../Includes/Classroom-Setup-5.1a
 
 # COMMAND ----------
 
@@ -45,9 +45,7 @@ df = (spark.FILL_IN
 
 # COMMAND ----------
 
-assert df.isStreaming
-assert df.columns == ["order_id", "email", "transaction_timestamp", "total_item_quantity", "purchase_revenue_in_usd", "unique_items", "items"]
-print("All test pass")
+DA.tests.validate_1_1(df)
 
 # COMMAND ----------
 
@@ -69,9 +67,7 @@ coupon_sales_df = (df.FILL_IN
 
 # COMMAND ----------
 
-schema_str = str(coupon_sales_df.schema)
-assert "StructField(items,StructType(List(StructField(coupon" in schema_str, "items column was not exploded"
-print("All test pass")
+DA.tests.validate_2_1(coupon_sales_df.schema)
 
 # COMMAND ----------
 
@@ -90,8 +86,9 @@ print("All test pass")
 coupons_checkpoint_path = f"{DA.paths.checkpoints}/coupon-sales"
 coupons_output_path = f"{DA.paths.working_dir}/coupon-sales/output"
 
-coupon_sales_query = (coupon_sales_df.FILL_IN
-                     )
+coupon_sales_query = (coupon_sales_df.FILL_IN)
+
+DA.block_until_stream_is_ready(coupon_sales_query)
 
 # COMMAND ----------
 
@@ -99,12 +96,7 @@ coupon_sales_query = (coupon_sales_df.FILL_IN
 
 # COMMAND ----------
 
-DA.block_until_stream_is_ready("coupon_sales")
-assert coupon_sales_query.isActive
-assert len(dbutils.fs.ls(coupons_output_path)) > 0
-assert len(dbutils.fs.ls(coupons_checkpoint_path)) > 0
-assert "coupon_sales" in coupon_sales_query.lastProgress["name"]
-print("All test pass")
+DA.tests.validate_3_1(coupon_sales_query)
 
 # COMMAND ----------
 
@@ -128,9 +120,7 @@ query_status = coupon_sales_query.FILL_IN
 
 # COMMAND ----------
 
-assert type(query_id) == str
-assert list(query_status.keys()) == ["message", "isDataAvailable", "isTriggerActive"]
-print("All test pass")
+DA.tests.validate_4_1(query_id, query_status)
 
 # COMMAND ----------
 
@@ -148,8 +138,7 @@ coupon_sales_query.FILL_IN
 
 # COMMAND ----------
 
-assert not coupon_sales_query.isActive
-print("All test pass")
+DA.tests.validate_5_1(coupon_sales_query)
 
 # COMMAND ----------
 

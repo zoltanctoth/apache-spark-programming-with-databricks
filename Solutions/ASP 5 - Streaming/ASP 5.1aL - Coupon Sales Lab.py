@@ -23,7 +23,7 @@
 
 # COMMAND ----------
 
-# MAGIC %run ../Includes/Classroom-Setup
+# MAGIC %run ../Includes/Classroom-Setup-5.1a
 
 # COMMAND ----------
 
@@ -49,9 +49,7 @@ df = (spark
 
 # COMMAND ----------
 
-assert df.isStreaming
-assert df.columns == ["order_id", "email", "transaction_timestamp", "total_item_quantity", "purchase_revenue_in_usd", "unique_items", "items"]
-print("All test pass")
+DA.tests.validate_1_1(df)
 
 # COMMAND ----------
 
@@ -77,9 +75,7 @@ coupon_sales_df = (df
 
 # COMMAND ----------
 
-schema_str = str(coupon_sales_df.schema)
-assert "StructField(items,StructType(List(StructField(coupon" in schema_str, "items column was not exploded"
-print("All test pass")
+DA.tests.validate_2_1(coupon_sales_df.schema)
 
 # COMMAND ----------
 
@@ -106,8 +102,9 @@ coupon_sales_query = (coupon_sales_df
                       .queryName("coupon_sales")
                       .trigger(processingTime="1 second")
                       .option("checkpointLocation", coupons_checkpoint_path)
-                      .start(coupons_output_path)
-                     )
+                      .start(coupons_output_path))
+
+DA.block_until_stream_is_ready(coupon_sales_query)
 
 # COMMAND ----------
 
@@ -115,12 +112,7 @@ coupon_sales_query = (coupon_sales_df
 
 # COMMAND ----------
 
-DA.block_until_stream_is_ready("coupon_sales")
-assert coupon_sales_query.isActive
-assert len(dbutils.fs.ls(coupons_output_path)) > 0
-assert len(dbutils.fs.ls(coupons_checkpoint_path)) > 0
-assert "coupon_sales" in coupon_sales_query.lastProgress["name"]
-print("All test pass")
+DA.tests.validate_3_1(coupon_sales_query)
 
 # COMMAND ----------
 
@@ -146,9 +138,7 @@ print(query_status)
 
 # COMMAND ----------
 
-assert type(query_id) == str
-assert list(query_status.keys()) == ["message", "isDataAvailable", "isTriggerActive"]
-print("All test pass")
+DA.tests.validate_4_1(query_id, query_status)
 
 # COMMAND ----------
 
@@ -167,8 +157,7 @@ coupon_sales_query.awaitTermination()
 
 # COMMAND ----------
 
-assert not coupon_sales_query.isActive
-print("All test pass")
+DA.tests.validate_5_1(coupon_sales_query)
 
 # COMMAND ----------
 

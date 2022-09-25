@@ -22,7 +22,7 @@
 
 # COMMAND ----------
 
-# MAGIC %run ../Includes/Classroom-Setup
+# MAGIC %run ../Includes/Classroom-Setup-5.1b
 
 # COMMAND ----------
 
@@ -31,12 +31,10 @@ schema = "device STRING, ecommerce STRUCT<purchase_revenue_in_usd: DOUBLE, total
 # Directory of hourly events logged from the BedBricks website on July 3, 2020
 hourly_events_path = f"{DA.paths.datasets}/ecommerce/events/events-2020-07-03.json"
 
-df = (spark
-      .readStream
-      .schema(schema)
-      .option("maxFilesPerTrigger", 1)
-      .json(hourly_events_path)
-     )
+df = (spark.readStream
+           .schema(schema)
+           .option("maxFilesPerTrigger", 1)
+           .json(hourly_events_path))
 
 # COMMAND ----------
 
@@ -51,10 +49,8 @@ df = (spark
 # ANSWER
 from pyspark.sql.functions import col
 
-events_df = (df
-             .withColumn("createdAt", (col("event_timestamp") / 1e6).cast("timestamp"))
-             .withWatermark("createdAt", "2 hours")
-            )
+events_df = (df.withColumn("createdAt", (col("event_timestamp") / 1e6).cast("timestamp"))
+               .withWatermark("createdAt", "2 hours"))
 
 # COMMAND ----------
 
@@ -62,8 +58,7 @@ events_df = (df
 
 # COMMAND ----------
 
-assert "StructField(createdAt,TimestampType,true" in str(events_df.schema)
-print("All test pass")
+DA.tests.validate_1_1(events_df.schema)
 
 # COMMAND ----------
 
@@ -96,8 +91,7 @@ traffic_df = (events_df
 
 # COMMAND ----------
 
-assert str(traffic_df.schema) == "StructType(List(StructField(traffic_source,StringType,true),StructField(active_users,LongType,false),StructField(hour,IntegerType,true)))"
-print("All test pass")
+DA.tests.validate_2_1(traffic_df.schema)
 
 # COMMAND ----------
 
@@ -146,8 +140,7 @@ for s in spark.streams.active:
 
 # COMMAND ----------
 
-for s in spark.streams.active:
-    print(s.name)
+DA.tests.validate_4_1()
 
 # COMMAND ----------
 
