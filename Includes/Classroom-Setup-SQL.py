@@ -15,15 +15,15 @@ def create_table(self, table_name, location):
 
 # COMMAND ----------
 
-DA = DBAcademyHelper(**helper_arguments) # Create the DA object
-DA.reset_environment()                   # Reset by removing databases and files from other lessons
-DA.init(install_datasets=True,           # Initialize, install and validate the datasets
-        create_db=True)                  # Continue initialization, create the user-db
-print()
+DA = DBAcademyHelper(course_config, lesson_config)
+DA.reset_lesson()
+DA.init()
+DA.conclude_setup()
+
 DA.create_table("events", "ecommerce/events/events.delta", )
 DA.create_table("sales", "ecommerce/sales/sales.delta", )
 DA.create_table("users", "ecommerce/users/users.delta")
 DA.create_table("products", "products/products.delta", )
 
-DA.conclude_setup()                      # Conclude setup by advertising environmental changes
+DA.conclude_setup()
 

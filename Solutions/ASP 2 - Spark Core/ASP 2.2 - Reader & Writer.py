@@ -307,7 +307,7 @@ events_df.write.mode("overwrite").saveAsTable("events")
 
 # COMMAND ----------
 
-print(f"Database Name: {DA.db_name}")
+print(f"Database Name: {DA.schema_name}")
 
 # COMMAND ----------
 
@@ -316,7 +316,7 @@ print(f"Database Name: {DA.db_name}")
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC SHOW TABLES IN ${DA.db_name}
+# MAGIC SHOW TABLES IN ${DA.schema_name}
 
 # COMMAND ----------
 

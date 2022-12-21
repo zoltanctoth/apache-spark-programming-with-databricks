@@ -130,7 +130,7 @@ displayHTML(html)
 # MAGIC | Horizontal Rule | `---` |
 # MAGIC | Code            | ``` `code` ``` |
 # MAGIC | Link            | `[text](https://www.example.com)` |
-# MAGIC | Image           | `[alt text](image.jpg)`|
+# MAGIC | Image           | `![alt text](image.jpg)`|
 # MAGIC | Ordered List    | `1. First items` <br> `2. Second Item` <br> `3. Third Item` |
 # MAGIC | Unordered List  | `- First items` <br> `- Second Item` <br> `- Third Item` |
 # MAGIC | Code Block      | ```` ``` ```` <br> `code block` <br> ```` ``` ````|
@@ -265,7 +265,7 @@ spark.conf.set("whatever.events", DA.paths.events)
 
 # COMMAND ----------
 
-print(f"Database Name: {DA.db_name}")
+print(f"Database Name: {DA.schema_name}")
 
 # COMMAND ----------
 
@@ -274,7 +274,7 @@ print(f"Database Name: {DA.db_name}")
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC SHOW TABLES IN ${DA.db_name}
+# MAGIC SHOW TABLES IN ${DA.schema_name}
 
 # COMMAND ----------
 
